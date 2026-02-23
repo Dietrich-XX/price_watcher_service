@@ -1,21 +1,35 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Providers;
 
+use App\Interfaces\Repositories\PriceSubscriptionRepositoryInterface;
+use App\Interfaces\Repositories\SubscriberRepositoryInterface;
+use App\Interfaces\Services\PriceSubscriptionServiceInterface;
+use App\Interfaces\Services\SubscriberServiceInterface;
+use App\Repositories\PriceSubscriptionRepository;
+use App\Repositories\SubscriberRepository;
+use App\Services\PriceSubscriptionService;
+use App\Services\SubscriberService;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
     /**
-     * Register any application services.
+     * @return void
      */
     public function register(): void
     {
-        //
+        $this->app->bind(PriceSubscriptionServiceInterface::class, PriceSubscriptionService::class);
+        $this->app->bind(SubscriberServiceInterface::class, SubscriberService::class);
+
+        $this->app->bind(PriceSubscriptionRepositoryInterface::class, PriceSubscriptionRepository::class);
+        $this->app->bind(SubscriberRepositoryInterface::class, SubscriberRepository::class);
     }
 
     /**
-     * Bootstrap any application services.
+     * @return void
      */
     public function boot(): void
     {
