@@ -1,0 +1,25 @@
+# Using .env.docker for environment variables
+
+ENV_FILE := .env.docker
+COMPOSE := docker compose --env-file $(ENV_FILE)
+
+# Build all containers
+build:
+	$(COMPOSE) build
+
+# Start all containers in detached mode
+up:
+	$(COMPOSE) up -d
+
+# Start containers and attach to logs in real time
+up-logs:
+	$(COMPOSE) up
+
+# Stop all containers
+down:
+	$(COMPOSE) down
+
+# Rebuild all containers (no cache) and start in detached mode
+rebuild:
+	$(COMPOSE) down
+	$(COMPOSE) up -d --build
