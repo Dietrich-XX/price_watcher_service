@@ -27,7 +27,7 @@ readonly class SubscriberService implements SubscriberServiceInterface
         $subscriber = $this->subscriberRepository->findOrCreateByEmail($email);
 
         if ($subscriber->is_verified === false) {
-//            SendEmailVerificationJob::dispatch($subscriber);
+            SendEmailVerificationJob::dispatch($subscriber);
             $isEmailSent = true;
         }
 

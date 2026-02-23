@@ -23,3 +23,7 @@ down:
 rebuild:
 	$(COMPOSE) down
 	$(COMPOSE) up -d --build
+
+# Run Laravel Horizon manually
+horizon:
+	$(COMPOSE) exec php php artisan horizon

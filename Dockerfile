@@ -8,8 +8,7 @@ RUN apt-get update && apt-get install -y \
     libzip-dev \
     libpng-dev \
     libjpeg62-turbo-dev \
-    libwebp-dev libjpeg62-turbo-dev libpng-dev libxpm-dev \
-    libfreetype6 \
+    libwebp-dev libxpm-dev \
     libfreetype6-dev \
     locales \
     zip \
@@ -17,9 +16,10 @@ RUN apt-get update && apt-get install -y \
     vim \
     unzip \
     git \
-    curl
-
-RUN docker-php-ext-install pdo pdo_mysql
+    curl \
+    && docker-php-ext-install pdo pdo_mysql pcntl \
+    && pecl install redis \
+    && docker-php-ext-enable redis
 
 #RUN pecl install xdebug && docker-php-ext-enable xdebug;
 #COPY ./docker/configs/php/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
