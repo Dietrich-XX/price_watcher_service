@@ -6,7 +6,7 @@ namespace App\Strategies;
 
 use App\Exceptions\PriceTrackerException;
 use App\Interfaces\Strategies\PriceTrackerStrategyInterface;
-use Exception;
+use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\Response;
 use Symfony\Component\DomCrawler\Crawler;
@@ -16,6 +16,14 @@ readonly class ParsingStrategy implements PriceTrackerStrategyInterface
     public function __construct(protected PendingRequest $htmlParserClient)
     {}
 
+    /**
+     * Tracks the price of an item by HTML parsing
+     *
+     * @param string $url
+     * @return string
+     * @throws PriceTrackerException
+     * @throws ConnectionException
+     */
     public function trackPrice(string $url): string
     {
         $response = $this->htmlParserClient->get($url);
@@ -39,7 +47,7 @@ readonly class ParsingStrategy implements PriceTrackerStrategyInterface
         $priceClean = rtrim($priceText, '.');
 
         if (empty($priceClean)) {
-            throw new Exception('Цена некорректна');
+            throw PriceTrackerException::priceNotFound();
         }
 
         return $priceClean;
