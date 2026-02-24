@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Api\Actions\V1\EmailVerifications;
+namespace App\Http\Actions\Api\V1\EmailVerifications;
 
 use App\Http\Resources\Api\V1\EmailVerifications\ResendVerificationEmailResource;
-use App\Jobs\ForceSendEmailVerificationJob;
+use App\Jobs\EmailVerifications\ForceSendEmailVerificationJob;
 use App\Models\Subscriber;
 
 readonly class ResendVerificationEmailAction

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Web\Actions\EmailVerifications;
+namespace App\Http\Actions\Web\EmailVerifications;
 
 use App\Interfaces\Services\EmailVerifications\EmailVerifierInterface;
 use Illuminate\Contracts\View\View;

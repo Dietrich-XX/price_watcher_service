@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Interfaces\Repositories;
 
 use App\Models\Subscriber;
+use Illuminate\Support\Collection;
 
 interface SubscriberRepositoryInterface
 {
@@ -26,4 +27,10 @@ interface SubscriberRepositoryInterface
      * @return Subscriber
      */
     public function updateIsVerified(Subscriber $subscriber, bool $value): Subscriber;
+
+    /**
+     * @param array $subscribers
+     * @return Collection
+     */
+    public function findByIds(array $subscribers): Collection;
 }

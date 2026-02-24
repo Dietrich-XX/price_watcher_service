@@ -1,5 +1,7 @@
 <?php
 
+use App\Enums\PriceTrackingStrategyEnum;
+
 return [
 
     /*
@@ -123,4 +125,28 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Price Tracking Strategy
+    |--------------------------------------------------------------------------
+    |
+    | Defines which strategy is used to track and check price changes.
+    |
+    */
+
+    'price_tracking_strategy' => PriceTrackingStrategyEnum::GRAPHQL_REMOTE_API->value,  // Сейчас используется реализация через GraphQL.
+                                                                                        // При этом архитектура системы предусматривает расширяемость —
+                                                                                        // при необходимости можно будет добавить другую стратегию,
+                                                                                        // например, парсер или иной способ получения данных
+
+    /*
+    |--------------------------------------------------------------------------
+    | Price Tracking Interval
+    |--------------------------------------------------------------------------
+    |
+    | Defines the interval, in minutes, at which the price tracking job should run.
+    |
+    */
+
+    'interval_minutes' => 60
 ];

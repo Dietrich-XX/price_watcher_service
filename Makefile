@@ -27,3 +27,7 @@ rebuild:
 # Run Laravel Horizon manually
 horizon:
 	$(COMPOSE) exec php php artisan horizon
+
+# Run Laravel scheduler manually
+schedule:
+	$(COMPOSE) exec php php artisan schedule:run

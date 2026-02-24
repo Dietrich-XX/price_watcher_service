@@ -27,6 +27,11 @@ class PriceSubscription extends Model
         'last_checked_at'
     ];
 
+    protected $casts = [
+        'current_price' => 'float',
+        'last_checked_at' => 'datetime'
+    ];
+
     /**
      * @return BelongsToMany
      */

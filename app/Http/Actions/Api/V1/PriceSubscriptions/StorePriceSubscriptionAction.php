@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Api\Actions\V1\PriceSubscriptions;
+namespace App\Http\Actions\Api\V1\PriceSubscriptions;
 
 use App\Data\PriceSubscriptions\StorePriceSubscriptionData;
 use App\Http\Requests\Api\V1\PriceSubscriptions\StorePriceSubscriptionRequest;

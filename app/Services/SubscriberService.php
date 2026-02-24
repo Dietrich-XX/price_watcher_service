@@ -7,7 +7,7 @@ namespace App\Services;
 use App\Data\Subscribers\CreateSubscriberResultData;
 use App\Interfaces\Repositories\SubscriberRepositoryInterface;
 use App\Interfaces\Services\SubscriberServiceInterface;
-use App\Jobs\SendEmailVerificationJob;
+use App\Jobs\EmailVerifications\SendEmailVerificationJob;
 
 readonly class SubscriberService implements SubscriberServiceInterface
 {

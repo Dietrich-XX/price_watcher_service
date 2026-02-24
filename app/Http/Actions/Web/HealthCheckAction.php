@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Web\Actions;
+namespace App\Http\Actions\Web;
 
 use Illuminate\Http\Response;
 

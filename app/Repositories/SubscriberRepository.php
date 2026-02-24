@@ -6,6 +6,7 @@ namespace App\Repositories;
 
 use App\Interfaces\Repositories\SubscriberRepositoryInterface;
 use App\Models\Subscriber;
+use Illuminate\Support\Collection;
 
 class SubscriberRepository extends AbstractEntityRepository implements SubscriberRepositoryInterface
 {
@@ -15,6 +16,8 @@ class SubscriberRepository extends AbstractEntityRepository implements Subscribe
     }
 
     /**
+     * Find subscriber by ID
+     *
      * @param int $subscriberId
      * @return Subscriber|null
      */
@@ -39,6 +42,8 @@ class SubscriberRepository extends AbstractEntityRepository implements Subscribe
     }
 
     /**
+     * Update the 'is_verified' status of a subscriber
+     *
      * @param Subscriber $subscriber
      * @param bool $value
      * @return Subscriber
@@ -50,5 +55,16 @@ class SubscriberRepository extends AbstractEntityRepository implements Subscribe
                 'is_verified' => $value
             ]);
         });
+    }
+
+    /**
+     * Find subscribers by IDs
+     *
+     * @param array $subscribers
+     * @return Collection
+     */
+    public function findByIds(array $subscribers): Collection
+    {
+        return $this->entity()->whereIn('id', $subscribers)->get();
     }
 }

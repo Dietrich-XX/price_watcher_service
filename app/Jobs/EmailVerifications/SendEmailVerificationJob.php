@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Jobs;
+namespace App\Jobs\EmailVerifications;
 
 use App\Interfaces\Services\EmailVerifications\EmailVerificationSenderInterface;
 use App\Models\Subscriber;
