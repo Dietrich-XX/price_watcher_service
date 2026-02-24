@@ -8,8 +8,10 @@ use App\Exceptions\PriceTrackerException;
 use App\Interfaces\Repositories\PriceSubscriptionRepositoryInterface;
 use App\Interfaces\Services\PriceTrackerInterface;
 use App\Jobs\NotifyPriceChanged\NotifyPriceChangedJob;
+use App\Models\PriceSubscription;
 use Illuminate\Bus\Batchable;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
@@ -35,6 +37,7 @@ class TrackPricesBatchJob implements ShouldQueue
     public function handle(PriceSubscriptionRepositoryInterface $priceSubscriptionRepository, PriceTrackerInterface $priceTracker): void
     {
         try {
+            /** @var Collection<PriceSubscription> $priceSubscriptions */
             $priceSubscriptions = $priceSubscriptionRepository->findByIds($this->priceSubscriptionIds);
 
             foreach ($priceSubscriptions as $priceSubscription) {

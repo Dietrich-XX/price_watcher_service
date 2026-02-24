@@ -32,9 +32,7 @@ class StorePriceSubscriptionResource extends JsonResource
             'price_subscription' => new PriceSubscriptionResource($priceSubscription),
             'message' => $subscriber->is_verified
                 ? "You are successfully tracking price changes for the specified URL: $priceSubscription->url."
-                : "You are successfully tracking price changes for the specified URL: $priceSubscription->url,
-                    however to receive notifications about changes you need to verify your email.
-                    A verification email has been sent to your email address."
+                : "You are successfully tracking price changes for the specified URL: {$priceSubscription->url}, however to receive notifications about changes you need to verify your email. A verification email has been sent to your email address."
         ];
     }
 }

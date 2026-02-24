@@ -8,12 +8,11 @@ use App\Exceptions\PriceTrackerException;
 use App\Interfaces\Strategies\PriceTrackerStrategyInterface;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Client\PendingRequest;
-use Illuminate\Support\Facades\Log;
 
 readonly class GraphQLRemoteApiStrategy implements PriceTrackerStrategyInterface
 {
     public function __construct(
-        protected PendingRequest $OlxGraphqlClient,
+        protected PendingRequest $olxGraphqlClient,
         protected string $baseUrl
     ) {}
 
@@ -21,11 +20,11 @@ readonly class GraphQLRemoteApiStrategy implements PriceTrackerStrategyInterface
      * Tracks the price of an item by querying OLX via GraphQL
      *
      * @param string $url
-     * @return float
+     * @return string
      * @throws PriceTrackerException
      * @throws ConnectionException
      */
-    public function trackPrice(string $url): float // Самое близкое решение которое я придумал, лучше всего работает только если название объявления написанно на английском, в таком случае слаг будет максимально похож на название
+    public function trackPrice(string $url): string // Самое близкое решение которое я придумал, лучше всего работает только если название объявления написанно на английском, в таком случае слаг будет максимально похож на название
     {
         $searchQuery = $this->extractQueryFromUrl($url);
 
@@ -62,7 +61,7 @@ readonly class GraphQLRemoteApiStrategy implements PriceTrackerStrategyInterface
             ],
         ];
 
-        $response = $this->OlxGraphqlClient->post($this->baseUrl, $graphqlPayload);
+        $response = $this->olxGraphqlClient->post($this->baseUrl, $graphqlPayload);
 
         if (!$response->successful()) {
             throw PriceTrackerException::serverResponseError($response->getStatusCode());
@@ -75,10 +74,11 @@ readonly class GraphQLRemoteApiStrategy implements PriceTrackerStrategyInterface
         }
 
         foreach ($data['data']['clientCompatibleListings']['data'][0]['params'] as $param) {
-            if ($param['key'] === 'price' && isset($param['value']['value'])) {
-                return (float) $param['value']['value'];
+            if ($param['key'] === 'price' && isset($param['value']['label'])) {
+                return str_replace('.', '', $param['value']['label']);
             }
         }
+
 
         throw PriceTrackerException::priceNotFound();
     }

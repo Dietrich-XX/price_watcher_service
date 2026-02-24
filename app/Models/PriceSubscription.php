@@ -12,7 +12,7 @@ use Illuminate\Support\Carbon;
 /**
  * @property int $id
  * @property string $url
- * @property float|null $current_price
+ * @property string|null $current_price
  * @property Carbon|null $last_checked_at
  * @property Carbon $created_at
  * @property Carbon $updated_at
@@ -28,7 +28,6 @@ class PriceSubscription extends Model
     ];
 
     protected $casts = [
-        'current_price' => 'float',
         'last_checked_at' => 'datetime'
     ];
 

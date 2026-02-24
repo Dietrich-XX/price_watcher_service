@@ -64,10 +64,10 @@ class PriceSubscriptionRepository extends AbstractEntityRepository implements Pr
      * Update the current price and last checked timestamp for a subscription
      *
      * @param PriceSubscription $priceSubscription
-     * @param float $newPrice
+     * @param string $newPrice
      * @return PriceSubscription
      */
-    public function updateCurrentPrice(PriceSubscription $priceSubscription, float $newPrice): PriceSubscription
+    public function updateCurrentPrice(PriceSubscription $priceSubscription, string $newPrice): PriceSubscription
     {
         return tap($priceSubscription, function (PriceSubscription $priceSubscription) use ($newPrice) {
             $priceSubscription->update([

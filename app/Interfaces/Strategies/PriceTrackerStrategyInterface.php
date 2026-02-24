@@ -10,8 +10,8 @@ interface PriceTrackerStrategyInterface
 {
     /**
      * @param string $url
-     * @return float
+     * @return string
      * @throws PriceTrackerException
      */
-    public function trackPrice(string $url): float;
+    public function trackPrice(string $url): string;
 }

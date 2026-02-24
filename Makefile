@@ -31,3 +31,11 @@ horizon:
 # Run Laravel scheduler manually
 schedule:
 	$(COMPOSE) exec php php artisan schedule:run
+
+# Run migrations
+migrate:
+	$(COMPOSE) exec php php artisan migrate
+
+# Run migrations rollback
+migrate_rollback:
+	$(COMPOSE) exec php php artisan migrate:rollback

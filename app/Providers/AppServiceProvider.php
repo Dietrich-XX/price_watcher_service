@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Enums\PriceTrackingStrategyEnum;
 use App\Interfaces\Repositories\PriceSubscriptionRepositoryInterface;
 use App\Interfaces\Repositories\SubscriberRepositoryInterface;
 use App\Interfaces\Services\EmailVerifications\EmailVerificationSenderInterface;
@@ -19,8 +20,10 @@ use App\Services\PriceSubscriptionService;
 use App\Services\PriceTracker;
 use App\Services\SubscriberService;
 use App\Strategies\GraphQLRemoteApiStrategy;
+use App\Strategies\ParsingStrategy;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\ServiceProvider;
+use RuntimeException;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -35,7 +38,16 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(EmailVerifierInterface::class, EmailVerificationService::class);
 
         $this->app->bind(PriceTrackerInterface::class, PriceTracker::class);
-        $this->app->singleton(PriceTrackerStrategyInterface::class, function () {
+
+        $this->app->singleton(PriceTrackerStrategyInterface::class, function ($app) {
+            return match (config('app.price_tracking_strategy')) {
+                PriceTrackingStrategyEnum::GRAPHQL_REMOTE_API => $app->make(GraphQLRemoteApiStrategy::class),
+                PriceTrackingStrategyEnum::PARSING => $app->make(ParsingStrategy::class),
+                default => throw new RuntimeException('Unknown price tracking strategy: ' . config('app.price_tracking_strategy'))
+            };
+        });
+
+        $this->app->bind(GraphQLRemoteApiStrategy::class, function () {
             $client = Http::withHeaders([
                 'Content-Type'    => 'application/json',
                 'Accept'          => 'application/json',
@@ -48,12 +60,15 @@ class AppServiceProvider extends ServiceProvider
                 'x-client'        => 'MWEB',
             ])->timeout(10);
 
-            $baseUrl = config('app.graphql_remote_api_base_url', 'https://m.olx.ua/apigateway/graphql');
-
             return new GraphQLRemoteApiStrategy(
-                OlxGraphqlClient: $client,
-                baseUrl: $baseUrl
+                olxGraphqlClient: $client,
+                baseUrl: config('app.graphql_remote_api_base_url', 'https://m.olx.ua/apigateway/graphql'),
             );
+        });
+
+        $this->app->bind(ParsingStrategy::class, function () {
+            $client = Http::withHeaders([])->timeout(10);
+            return new ParsingStrategy($client);
         });
 
         $this->app->bind(PriceSubscriptionRepositoryInterface::class, PriceSubscriptionRepository::class);

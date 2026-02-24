@@ -34,8 +34,8 @@ interface PriceSubscriptionRepositoryInterface
 
     /**
      * @param PriceSubscription $priceSubscription
-     * @param float $newPrice
+     * @param string $newPrice
      * @return PriceSubscription
      */
-    public function updateCurrentPrice(PriceSubscription $priceSubscription, float $newPrice): PriceSubscription;
+    public function updateCurrentPrice(PriceSubscription $priceSubscription, string $newPrice): PriceSubscription;
 }

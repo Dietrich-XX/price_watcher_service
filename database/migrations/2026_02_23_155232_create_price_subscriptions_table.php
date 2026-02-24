@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('price_subscriptions', function (Blueprint $table) {
             $table->id();
             $table->string('url')->unique();
-            $table->decimal('current_price', 10)->nullable();
+            $table->string('current_price')->nullable();
             $table->timestamp('last_checked_at')->nullable();
             $table->timestamps();
         });

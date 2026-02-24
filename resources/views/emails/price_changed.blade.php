@@ -17,7 +17,7 @@
         </p>
 
         <p>
-            <strong>Current Price:</strong> {{ number_format($priceSubscription->current_price ?? 0, 2) }}
+            <strong>Current Price:</strong> {{ $priceSubscription->current_price }}
         </p>
 
         @if($priceSubscription->last_checked_at)
