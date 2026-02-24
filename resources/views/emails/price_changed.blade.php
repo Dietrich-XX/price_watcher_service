@@ -7,7 +7,9 @@
 </head>
 <body style="font-family: Arial, sans-serif; line-height: 1.6; background-color: #f4f4f4; padding: 20px;">
     <div style="max-width: 600px; margin: 0 auto; background: #ffffff; padding: 30px; border-radius: 8px;">
-        <h2 style="margin-top: 0; color: #333;">Price Update Alert</h2>
+        <h2 style="margin-top: 0; color: #333;">
+            Price Changed
+        </h2>
         <p>The price for the following item has changed:</p>
         <p>
             <strong>URL:</strong>
@@ -15,7 +17,7 @@
         </p>
 
         <p>
-            <strong>Current Price:</strong> ${{ number_format($priceSubscription->current_price ?? 0, 2) }}
+            <strong>Current Price:</strong> {{ number_format($priceSubscription->current_price ?? 0, 2) }}
         </p>
 
         @if($priceSubscription->last_checked_at)

@@ -4,7 +4,14 @@ declare(strict_types=1);
 
 namespace App\Interfaces\Strategies;
 
+use App\Exceptions\PriceTrackerException;
+
 interface PriceTrackerStrategyInterface
 {
-    public function trackPrice(string $url): void;
+    /**
+     * @param string $url
+     * @return float
+     * @throws PriceTrackerException
+     */
+    public function trackPrice(string $url): float;
 }

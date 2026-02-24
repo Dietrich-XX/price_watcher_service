@@ -148,5 +148,17 @@ return [
     |
     */
 
-    'interval_minutes' => 60
+    'interval_minutes' => 60,
+
+    /*
+    |--------------------------------------------------------------------------
+    | GraphQL Remote API Base URL
+    |--------------------------------------------------------------------------
+    |
+    | Specifies the base URL of the remote GraphQL API used for price tracking.
+    | This URL is used by the GraphQL strategy to send queries and fetch prices.
+    |
+    */
+
+    'graphql_remote_api_base_url' => 'https://m.olx.ua/apigateway/graphql'
 ];

@@ -31,4 +31,11 @@ interface PriceSubscriptionRepositoryInterface
      * @return Collection
      */
     public function getSubscriberIdsByPriceSubscription(PriceSubscription $priceSubscription): Collection;
+
+    /**
+     * @param PriceSubscription $priceSubscription
+     * @param float $newPrice
+     * @return PriceSubscription
+     */
+    public function updateCurrentPrice(PriceSubscription $priceSubscription, float $newPrice): PriceSubscription;
 }

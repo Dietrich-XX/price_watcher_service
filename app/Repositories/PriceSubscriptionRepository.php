@@ -50,7 +50,7 @@ class PriceSubscriptionRepository extends AbstractEntityRepository implements Pr
     }
 
     /**
-     * Get all subscriber IDs for a given price subscription.
+     * Get all subscriber IDs for a given price subscription
      *
      * @param PriceSubscription $priceSubscription
      * @return Collection
@@ -58,5 +58,22 @@ class PriceSubscriptionRepository extends AbstractEntityRepository implements Pr
     public function getSubscriberIdsByPriceSubscription(PriceSubscription $priceSubscription): Collection
     {
         return $priceSubscription->subscribers()->get()->pluck('id');
+    }
+
+    /**
+     * Update the current price and last checked timestamp for a subscription
+     *
+     * @param PriceSubscription $priceSubscription
+     * @param float $newPrice
+     * @return PriceSubscription
+     */
+    public function updateCurrentPrice(PriceSubscription $priceSubscription, float $newPrice): PriceSubscription
+    {
+        return tap($priceSubscription, function (PriceSubscription $priceSubscription) use ($newPrice) {
+            $priceSubscription->update([
+                'current_price' => $newPrice,
+                'last_checked_at' => now()
+            ]);
+        });
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Jobs\TrackPrices;
 
+use App\Exceptions\PriceTrackerException;
 use App\Interfaces\Repositories\PriceSubscriptionRepositoryInterface;
 use App\Interfaces\Services\PriceTrackerInterface;
 use App\Jobs\NotifyPriceChanged\NotifyPriceChangedJob;
@@ -37,8 +38,16 @@ class TrackPricesBatchJob implements ShouldQueue
             $priceSubscriptions = $priceSubscriptionRepository->findByIds($this->priceSubscriptionIds);
 
             foreach ($priceSubscriptions as $priceSubscription) {
-                if ($priceTracker->shouldNotifyPriceChanged($priceSubscription)) {
-                    NotifyPriceChangedJob::dispatch($priceSubscription);
+                try {                                                           // Не фанат везде пихать try catch но тут он нужен что бы в случае если мы не нашли цену например, алгоритм будет продолжать проход по колекции
+                    if ($priceTracker->shouldNotifyPriceChanged($priceSubscription)) {
+                        NotifyPriceChangedJob::dispatch($priceSubscription);    // При запуске джобы, она получит уже обновленную priceSubscription поэтому тут можно не делать refresh() для сущности
+                    }
+                } catch (PriceTrackerException $exception) {
+                    Log::warning('Price tracking skipped for subscription', [
+                        'subscription_id' => $priceSubscription->id,
+                        'message' => $exception->getMessage(),
+                        'code' => $exception->getCode(),
+                    ]);
                 }
             }
         } catch (Throwable $exception) {

@@ -19,6 +19,7 @@ use App\Services\PriceSubscriptionService;
 use App\Services\PriceTracker;
 use App\Services\SubscriberService;
 use App\Strategies\GraphQLRemoteApiStrategy;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -34,7 +35,26 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(EmailVerifierInterface::class, EmailVerificationService::class);
 
         $this->app->bind(PriceTrackerInterface::class, PriceTracker::class);
-        $this->app->bind(PriceTrackerStrategyInterface::class, GraphQLRemoteApiStrategy::class);
+        $this->app->singleton(PriceTrackerStrategyInterface::class, function () {
+            $client = Http::withHeaders([
+                'Content-Type'    => 'application/json',
+                'Accept'          => 'application/json',
+                'Accept-Encoding' => 'gzip, deflate, br',
+                'Connection'      => 'keep-alive',
+                'Host'            => 'www.olx.ua',
+                'Origin'          => 'https://m.olx.ua',
+                'Referer'         => 'https://m.olx.ua/',
+                'User-Agent'      => 'Mozilla/5.0 (iPhone; CPU iPhone OS 18_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Mobile/15E148 Safari/604.1',
+                'x-client'        => 'MWEB',
+            ])->timeout(10);
+
+            $baseUrl = config('app.graphql_remote_api_base_url', 'https://m.olx.ua/apigateway/graphql');
+
+            return new GraphQLRemoteApiStrategy(
+                OlxGraphqlClient: $client,
+                baseUrl: $baseUrl
+            );
+        });
 
         $this->app->bind(PriceSubscriptionRepositoryInterface::class, PriceSubscriptionRepository::class);
         $this->app->bind(SubscriberRepositoryInterface::class, SubscriberRepository::class);
