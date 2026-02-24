@@ -4,14 +4,13 @@ declare(strict_types=1);
 
 namespace App\Jobs;
 
-use App\Mail\EmailVerificationMail;
+use App\Interfaces\Services\EmailVerifications\EmailVerificationSenderInterface;
 use App\Models\Subscriber;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Mail;
 
 class ForceSendEmailVerificationJob implements ShouldQueue
 {
@@ -23,10 +22,11 @@ class ForceSendEmailVerificationJob implements ShouldQueue
     /**
      * Execute the job to send an email verification to the subscriber
      *
+     * @param EmailVerificationSenderInterface $emailVerificationSender
      * @return void
      */
-    public function handle(): void
+    public function handle(EmailVerificationSenderInterface $emailVerificationSender): void
     {
-        Mail::to($this->subscriber->email)->send(new EmailVerificationMail($this->subscriber));
+        $emailVerificationSender->sendVerification($this->subscriber);
     }
 }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Jobs;
 
-use App\Mail\EmailVerificationMail;
+use App\Interfaces\Services\EmailVerifications\EmailVerificationSenderInterface;
 use App\Models\Subscriber;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -12,7 +12,6 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Mail;
 
 /**
  * This job is unique for each subscriber for 5 minutes. If the same job is dispatched again
@@ -43,12 +42,13 @@ class SendEmailVerificationJob implements ShouldQueue, ShouldBeUnique
     }
 
     /**
-     * Execute the job to send an email verification to the subscriber
+     * Execute the job to send verification to the subscriber
      *
+     * @param EmailVerificationSenderInterface $emailVerificationSender
      * @return void
      */
-    public function handle(): void
+    public function handle(EmailVerificationSenderInterface $emailVerificationSender): void
     {
-        Mail::to($this->subscriber->email)->send(new EmailVerificationMail($this->subscriber));
+        $emailVerificationSender->sendVerification($this->subscriber);
     }
 }

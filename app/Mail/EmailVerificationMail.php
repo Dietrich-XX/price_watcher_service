@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Mail;
 
-use App\Models\Subscriber;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
@@ -15,25 +14,26 @@ class EmailVerificationMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public function __construct(readonly protected Subscriber $subscriber)
+    public function __construct(readonly public string $verificationToken)
     {}
 
+    /**
+     * @return Envelope
+     */
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Email Verification Mail',
+            subject: 'Verify Your Email Address',
         );
     }
 
+    /**
+     * @return Content
+     */
     public function content(): Content
     {
         return new Content(
-            view: 'view.name',
+            markdown: 'emails.email_verification'
         );
-    }
-
-    public function attachments(): array
-    {
-        return [];
     }
 }

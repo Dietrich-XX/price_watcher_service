@@ -1,0 +1,25 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Http\Api\Actions\V1\EmailVerifications;
+
+use App\Http\Resources\Api\V1\EmailVerifications\ResendVerificationEmailResource;
+use App\Jobs\ForceSendEmailVerificationJob;
+use App\Models\Subscriber;
+
+readonly class ResendVerificationEmailAction
+{
+    /**
+     * @param Subscriber $subscriber
+     * @return ResendVerificationEmailResource
+     */
+    public function __invoke(Subscriber $subscriber): ResendVerificationEmailResource
+    {
+        if (!$subscriber->is_verified) {
+            ForceSendEmailVerificationJob::dispatch($subscriber);
+        }
+
+        return new ResendVerificationEmailResource($subscriber);
+    }
+}

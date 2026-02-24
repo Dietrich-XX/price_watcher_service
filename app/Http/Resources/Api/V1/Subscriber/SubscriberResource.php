@@ -16,6 +16,7 @@ class SubscriberResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            'id' => $this->resource->id,
             'email' => $this->resource->email,
             'is_verified' => $this->resource->is_verified
         ];

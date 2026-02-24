@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Web;
+namespace App\Http\Web\Actions;
 
 use Illuminate\Http\Response;
 
@@ -13,6 +13,7 @@ class HealthCheckAction
      */
     public function __invoke(): Response
     {
+
         return response('OK', 200);
     }
 }

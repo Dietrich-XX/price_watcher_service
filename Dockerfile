@@ -21,9 +21,6 @@ RUN apt-get update && apt-get install -y \
     && pecl install redis \
     && docker-php-ext-enable redis
 
-#RUN pecl install xdebug && docker-php-ext-enable xdebug;
-#COPY ./docker/configs/php/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
-
 RUN php -r "readfile('http://getcomposer.org/installer');" | php -- --install-dir=/usr/bin/ --filename=composer
 
 COPY . .

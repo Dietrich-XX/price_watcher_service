@@ -9,8 +9,21 @@ use App\Models\Subscriber;
 interface SubscriberRepositoryInterface
 {
     /**
+     * @param int $subscriberId
+     * @return Subscriber|null
+     */
+    public function findById(int $subscriberId): ?Subscriber;
+
+    /**
      * @param string $email
      * @return Subscriber
      */
     public function findOrCreateByEmail(string $email): Subscriber;
+
+    /**
+     * @param Subscriber $subscriber
+     * @param bool $value
+     * @return Subscriber
+     */
+    public function updateIsVerified(Subscriber $subscriber, bool $value): Subscriber;
 }

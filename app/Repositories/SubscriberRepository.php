@@ -15,14 +15,13 @@ class SubscriberRepository extends AbstractEntityRepository implements Subscribe
     }
 
     /**
-     * @param string $email
+     * @param int $subscriberId
      * @return Subscriber|null
      */
-    public function findByEmail(string $email): ?Subscriber
+    public function findById(int $subscriberId): ?Subscriber
     {
-        return $this->entity()
-            ->where('email', $email)
-            ->first();
+        /** @var Subscriber|null */
+        return $this->entity()->find($subscriberId);
     }
 
     /**
@@ -41,13 +40,14 @@ class SubscriberRepository extends AbstractEntityRepository implements Subscribe
 
     /**
      * @param Subscriber $subscriber
+     * @param bool $value
      * @return Subscriber
      */
-    public function confirm(Subscriber $subscriber): Subscriber
+    public function updateIsVerified(Subscriber $subscriber, bool $value): Subscriber
     {
-        return tap($subscriber, function (Subscriber $subscriber) {
+        return tap($subscriber, function (Subscriber $subscriber) use ($value) {
             $subscriber->update([
-                'is_verified' => true
+                'is_verified' => $value
             ]);
         });
     }

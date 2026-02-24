@@ -39,6 +39,6 @@ class Subscriber extends Model
             'price_subscription_subscriber',
             'subscriber_id',
             'price_subscription_id'
-        );
+        )->withTimestamps();
     }
 }
