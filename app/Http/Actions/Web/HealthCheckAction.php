@@ -13,7 +13,6 @@ class HealthCheckAction
      */
     public function __invoke(): Response
     {
-
         return response('OK', 200);
     }
 }

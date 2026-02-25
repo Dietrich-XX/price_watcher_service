@@ -75,10 +75,9 @@ readonly class GraphQLRemoteApiStrategy implements PriceTrackerStrategyInterface
 
         foreach ($data['data']['clientCompatibleListings']['data'][0]['params'] as $param) {
             if ($param['key'] === 'price' && isset($param['value']['label'])) {
-                return str_replace('.', '', $param['value']['label']);
+                return rtrim($param['value']['label'], '.');
             }
         }
-
 
         throw PriceTrackerException::priceNotFound();
     }

@@ -20,6 +20,9 @@ readonly class PriceSubscriptionService implements PriceSubscriptionServiceInter
     ) {}
 
     /**
+     * Creates or retrieves a subscriber by email, creates or retrieves a price subscription by URL,
+     * attaches them without detaching existing relations
+     *
      * @param StorePriceSubscriptionData $storePriceSubscriptionData
      * @return SubscribeResultData
      * @throws Throwable

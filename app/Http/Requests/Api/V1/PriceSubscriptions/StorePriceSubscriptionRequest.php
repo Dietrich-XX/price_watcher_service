@@ -6,6 +6,7 @@ namespace App\Http\Requests\Api\V1\PriceSubscriptions;
 
 use App\Data\PriceSubscriptions\StorePriceSubscriptionData;
 use App\Http\Requests\Api\AbstractApiFormRequest;
+use App\Rules\OlxUrlRule;
 
 class StorePriceSubscriptionRequest extends AbstractApiFormRequest
 {
@@ -23,7 +24,7 @@ class StorePriceSubscriptionRequest extends AbstractApiFormRequest
     public function rules(): array
     {
         return [
-            'url'   => ['required', 'url'],
+            'url'   => ['required', 'url', new OlxUrlRule()],
             'email' => ['required', 'email', 'max:255']
         ];
     }

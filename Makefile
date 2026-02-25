@@ -39,3 +39,7 @@ migrate:
 # Run migrations rollback
 migrate_rollback:
 	$(COMPOSE) exec php php artisan migrate:rollback
+
+# Run tests
+test:
+	$(COMPOSE) exec php php artisan test

@@ -16,6 +16,7 @@ class PriceSubscriptionResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            'id' => $this->id,
             'url' => $this->resource->url,
             'current_price' => $this->resource->current_price,
             'last_checked_at' => $this->resource->last_checked_at

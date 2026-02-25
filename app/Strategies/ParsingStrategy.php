@@ -54,7 +54,7 @@ readonly class ParsingStrategy implements PriceTrackerStrategyInterface
     }
 
     /**
-     * Create Crawler for html parsing
+     * Create Crawler for HTML parsing
      *
      * @param Response $response
      * @return Crawler
